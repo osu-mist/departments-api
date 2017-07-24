@@ -14,25 +14,13 @@ schemes:
 produces:
   - application/json
 paths:
-  /:
-    get:
-      summary: Get information
-      description: Build and runtime information about the application.
-      parameters:
-        - $ref: '#/parameters/pretty'
-      responses:
-        200:
-          description: Object containing information
-          schema:
-            $ref: '#/definitions/Info'
-
   /departments:
     get:
       summary: List departments
-      description: Return org code and org description (departments) for a business center
+      description: Return org code and org description (departments) for a single business center
       parameters:
         - in: query
-          name: business_center
+          name: businessCenter
           description: "4-character business name"
           required: true
           type: string
@@ -41,6 +29,10 @@ paths:
           description: List of departments
           schema:
             $ref: "#/definitions/ResultObject"
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
 
 parameters:
   pretty:
@@ -51,23 +43,6 @@ parameters:
     description: If true, JSON response will be pretty-printed
 
 definitions:
-  Info:
-    properties:
-      name:
-        type: string
-        description: Name of the API.
-      time:
-        type: string
-        description: Build time in ISO 8601 format.
-      unixTime:
-        type: integer
-        description: Build time as milliseconds since the unix epoch.
-      commit:
-        type: string
-        description: Git commit hash of the revision which was built.
-      documentation:
-        type: string
-        description: Filename of the swagger specification for the API.
   Error:
     properties:
       status:
@@ -130,9 +105,9 @@ definitions:
       name:
         type: string
         description: Name of the department usually referred to as orgDescription.
-      bcName:
+      businessCenter:
         type: string
         description: Name of the business center
       organizationCode:
         type: string
-        description: numeric orgCode for the department
+        description: Numeric orgCode for the department
