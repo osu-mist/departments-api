@@ -1,5 +1,6 @@
 package edu.oregonstate.mist.api
 
+import edu.oregonstate.mist.api.jsonapi.ResourceObject
 import edu.oregonstate.mist.api.jsonapi.ResultObject
 import edu.oregonstate.mist.departments.db.DepartmentMockDAO
 import edu.oregonstate.mist.departments.db.DeptDAO
@@ -25,6 +26,10 @@ class DepartmentsResourceTest {
         assertNotNull(resultObject.data)
         assertEquals(resultObject.data.class, ArrayList.class)
         assertEquals(resultObject.data.size(), DATA_SIZE)
+
+        resultObject.data.each {
+            assertEquals(it.class, ResourceObject.class)
+        }
     }
 
     @Test

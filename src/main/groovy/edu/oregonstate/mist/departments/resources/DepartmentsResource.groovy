@@ -34,7 +34,7 @@ class DepartmentsResource extends Resource {
     @GET
     Response getDepartments(@QueryParam('businessCenter') String businessCenter) {
         ok(new ResultObject(
-                data: deptDAO.getDepartments(businessCenter)
+                data: deptDAO.getDepartments(businessCenter).collect { it.toResourceObject() }
         )).build()
     }
 

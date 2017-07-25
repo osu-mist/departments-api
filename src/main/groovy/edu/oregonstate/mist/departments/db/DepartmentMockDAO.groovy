@@ -12,7 +12,7 @@ class DepartmentMockDAO implements DeptDAO {
         this.departmentSize = departmentSize
     }
 
-    static List<Department> generate(int size) {
+    static List<Department> generate(int size, String businessCenter) {
         List<Department> result = new ArrayList<>()
         def random = new Random()
 
@@ -20,7 +20,7 @@ class DepartmentMockDAO implements DeptDAO {
             size.times {
                 result += new Department(
                         name: chooseName(),
-                        businessCenter: chooseBusinessCenter(),
+                        businessCenter: businessCenter ?: chooseBusinessCenter(),
                         organizationCode: random.nextInt(999999)
                 )
             }
@@ -41,9 +41,9 @@ class DepartmentMockDAO implements DeptDAO {
 
     List<Department> getDepartments(String businessCenter) {
         if (businessCenter == "empty") {
-            return generate(0)
+            return generate(0, null)
         }
 
-        generate(departmentSize)
+        generate(departmentSize, businessCenter)
     }
 }
