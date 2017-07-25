@@ -2,6 +2,7 @@ package edu.oregonstate.mist.api
 
 import edu.oregonstate.mist.departments.db.DepartmentMockDAO
 import org.junit.Test
+import static org.junit.Assert.*
 
 class DepartmentMockDAOTest {
     @Test
@@ -12,14 +13,14 @@ class DepartmentMockDAOTest {
     @Test
     void shouldGenerateManyDepartments() {
         (1..10).each {
-            assert DepartmentMockDAO.generate(it).size() == it
+            assertEquals(DepartmentMockDAO.generate(it).size(), it)
         }
     }
 
     @Test
     void shouldNotGenerateNegativeDepartments() {
         (-10..-1).each {
-            assert DepartmentMockDAO.generate(it).size() == 0
+            assertEquals(DepartmentMockDAO.generate(it).size(), 0)
         }
     }
 
@@ -28,7 +29,16 @@ class DepartmentMockDAOTest {
         DepartmentMockDAO departmentMockDAOTest
         (1..10).each {
             departmentMockDAOTest = new DepartmentMockDAO(it)
-            assert departmentMockDAOTest.getDepartments().size() == it
+            assertEquals(departmentMockDAOTest.getDepartments("abc").size(), it)
+        }
+    }
+
+    @Test
+    void shouldReturnEmptyListForEmpty() {
+        DepartmentMockDAO departmentMockDAOTest
+        (1..10).each {
+            departmentMockDAOTest = new DepartmentMockDAO(it)
+            assertTrue(departmentMockDAOTest.getDepartments("empty").isEmpty())
         }
     }
 }

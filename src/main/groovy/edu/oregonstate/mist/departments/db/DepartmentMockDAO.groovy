@@ -2,7 +2,7 @@ package edu.oregonstate.mist.departments.db
 
 import edu.oregonstate.mist.departments.core.Department
 
-class DepartmentMockDAO {
+class DepartmentMockDAO implements DeptDAO {
     private static List<String> businessCenters = ["UABC", "AABC", "FOBC"]
     private static List<String> departments = ["HR Sample", "Finance Dept",
                                                "Mock Dept", "Audits"]
@@ -39,7 +39,11 @@ class DepartmentMockDAO {
                 random.nextInt(111)
     }
 
-    List<Department> getDepartments() {
+    List<Department> getDepartments(String businessCenter) {
+        if (businessCenter == "empty") {
+            return generate(0)
+        }
+
         generate(departmentSize)
     }
 }
