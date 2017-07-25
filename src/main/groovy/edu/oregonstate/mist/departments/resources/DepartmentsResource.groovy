@@ -2,7 +2,6 @@ package edu.oregonstate.mist.departments.resources
 
 import com.codahale.metrics.annotation.Timed
 import edu.oregonstate.mist.api.Resource
-import edu.oregonstate.mist.api.jsonapi.ResourceObject
 import edu.oregonstate.mist.api.jsonapi.ResultObject
 import edu.oregonstate.mist.departments.db.DeptDAO
 import groovy.transform.TypeChecked
@@ -33,6 +32,10 @@ class DepartmentsResource extends Resource {
     @Timed
     @GET
     Response getDepartments(@QueryParam('businessCenter') String businessCenter) {
+        if (!businessCenter?.trim()) {
+            return badRequest("businessCenter is required").build()
+        }
+
         ok(new ResultObject(
                 data: deptDAO.getDepartments(businessCenter).collect { it.toResourceObject() }
         )).build()

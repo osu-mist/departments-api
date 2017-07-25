@@ -45,6 +45,14 @@ class DepartmentsResourceTest {
         assertEquals(resultObject.data.size(), 0)
     }
 
+    @Test
+    void shouldRequireBusinessCenter() {
+        Response response = departmentsResource.getDepartments("")
+        assertNotNull(response)
+        assertEquals(response.status, 400)
+        assertEquals(response.getEntity().class, Error.class)
+    }
+
     @Before
     void setup() {
         DeptDAO deptDAO = new DepartmentMockDAO(DATA_SIZE)
