@@ -14,22 +14,17 @@ class DepartmentMockDAO implements DeptDAO {
 
     static List<Department> generate(int size, String businessCenter) {
         List<Department> result = new ArrayList<>()
-        def random = new Random()
 
         if (size) {
             size.times {
                 result += new Department(
                         name: chooseName(),
                         businessCenter: businessCenter ?: chooseBusinessCenter(),
-                        organizationCode: getOrganizationCode()
+                        organizationCode: 1111 + it
                 )
             }
         }
         result
-    }
-
-    private static int getOrganizationCode() {
-        new Random().nextInt(20) + 1111
     }
 
     private static String chooseBusinessCenter() {

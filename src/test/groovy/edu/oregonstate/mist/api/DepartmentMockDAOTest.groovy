@@ -49,7 +49,15 @@ class DepartmentMockDAOTest {
     void shouldGenerateOrganizationCodesInLimitedRange() {
         new DepartmentMockDAO(100).getDepartments("abc").each {
             def difference = Math.abs(Integer.valueOf(it.organizationCode) - 1111)
-            assert(difference <= 20)
+            assert(difference <= 100)
         }
+    }
+
+    @Test
+    void organizationCodeShouldBeUnique() {
+        def orgCodes = new DepartmentMockDAO(100).getDepartments("abc").organizationCode
+        def uniqueOrgCodes = orgCodes.unique()
+
+        assertEquals(orgCodes, uniqueOrgCodes)
     }
 }
