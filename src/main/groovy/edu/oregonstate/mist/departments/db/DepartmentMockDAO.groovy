@@ -21,11 +21,15 @@ class DepartmentMockDAO implements DeptDAO {
                 result += new Department(
                         name: chooseName(),
                         businessCenter: businessCenter ?: chooseBusinessCenter(),
-                        organizationCode: random.nextInt(999999)
+                        organizationCode: getOrganizationCode()
                 )
             }
         }
         result
+    }
+
+    private static int getOrganizationCode() {
+        new Random().nextInt(20) + 1111
     }
 
     private static String chooseBusinessCenter() {

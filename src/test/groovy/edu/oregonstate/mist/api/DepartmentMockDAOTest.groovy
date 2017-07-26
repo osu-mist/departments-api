@@ -44,4 +44,12 @@ class DepartmentMockDAOTest {
             assertTrue(departmentMockDAOTest.getDepartments("empty").isEmpty())
         }
     }
+
+    @Test
+    void shouldGenerateOrganizationCodesInLimitedRange() {
+        new DepartmentMockDAO(100).getDepartments("abc").each {
+            def difference = Math.abs(Integer.valueOf(it.organizationCode) - 1111)
+            assert(difference <= 20)
+        }
+    }
 }
