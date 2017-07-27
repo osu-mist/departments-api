@@ -33,21 +33,24 @@ class DepartmentsResourceTest {
     }
 
     @Test
-    void shouldReturn200ForEmptyList() {
+    void shouldReturn400ForEmptyList() {
         Response response = departmentsResource.getDepartments("empty")
         assertNotNull(response)
-        assertEquals(response.getEntity().class, ResultObject.class)
-        assertEquals(response.status, 200)
-
-        ResultObject resultObject = response.getEntity()
-        assertNotNull(resultObject.data)
-        assertEquals(resultObject.data.class, ArrayList.class)
-        assertEquals(resultObject.data.size(), 0)
+        assertEquals(response.getEntity().class, Error.class)
+        assertEquals(response.status, 400)
     }
 
     @Test
     void shouldRequireBusinessCenter() {
         Response response = departmentsResource.getDepartments("")
+        assertNotNull(response)
+        assertEquals(response.status, 400)
+        assertEquals(response.getEntity().class, Error.class)
+    }
+
+    @Test
+    void shouldValidateBusinessCenter() {
+        Response response = departmentsResource.getDepartments("invalid-bc")
         assertNotNull(response)
         assertEquals(response.status, 400)
         assertEquals(response.getEntity().class, Error.class)

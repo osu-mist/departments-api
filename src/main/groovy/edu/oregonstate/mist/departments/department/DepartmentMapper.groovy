@@ -1,7 +1,7 @@
 package edu.oregonstate.mist.departments.department
 
+import edu.oregonstate.mist.contrib.AbstractDepartmentDAO
 import edu.oregonstate.mist.departments.core.Department
-import edu.oregonstate.mist.departments.db.AbstractDepartmentDAO
 import org.skife.jdbi.v2.StatementContext
 import org.skife.jdbi.v2.tweak.ResultSetMapper
 

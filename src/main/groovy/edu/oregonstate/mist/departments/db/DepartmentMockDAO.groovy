@@ -46,6 +46,11 @@ class DepartmentMockDAO extends DeptDAO implements DepartmentDAO {
         generate(departmentSize, businessCenter)
     }
 
+    boolean isValidBC(String businessCenter) {
+        def invalidBusinessCenters = ["empty", "invalid-bc"]
+        !invalidBusinessCenters.contains(businessCenter)
+    }
+
     @Override
     void close() { }
 

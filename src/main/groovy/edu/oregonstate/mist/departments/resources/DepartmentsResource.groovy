@@ -32,7 +32,7 @@ class DepartmentsResource extends Resource {
     @Timed
     @GET
     Response getDepartments(@QueryParam('businessCenter') String businessCenter) {
-        if (!businessCenter?.trim()) {
+        if (!businessCenter?.trim() || !departmentDAO.isValidBC(businessCenter)) {
             return badRequest("businessCenter is required").build()
         }
 
