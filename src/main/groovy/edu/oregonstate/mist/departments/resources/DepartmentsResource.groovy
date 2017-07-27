@@ -5,8 +5,6 @@ import edu.oregonstate.mist.api.Resource
 import edu.oregonstate.mist.api.jsonapi.ResultObject
 import edu.oregonstate.mist.departments.db.DepartmentDAO
 import groovy.transform.TypeChecked
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 
 import javax.annotation.security.PermitAll
 import javax.ws.rs.GET
@@ -22,7 +20,6 @@ import javax.ws.rs.core.Response
 @TypeChecked
 class DepartmentsResource extends Resource {
 
-    Logger logger = LoggerFactory.getLogger(DepartmentsResource.class)
     private DepartmentDAO departmentDAO
 
     DepartmentsResource(DepartmentDAO deptDAO) {
@@ -33,7 +30,7 @@ class DepartmentsResource extends Resource {
     @GET
     Response getDepartments(@QueryParam('businessCenter') String businessCenter) {
         if (!businessCenter?.trim() || !departmentDAO.isValidBC(businessCenter)) {
-            return badRequest("businessCenter is required").build()
+            return badRequest("A valid businessCenter is required.").build()
         }
 
         ok(new ResultObject(
