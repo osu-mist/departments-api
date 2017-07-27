@@ -3,7 +3,7 @@ package edu.oregonstate.mist.departments.resources
 import com.codahale.metrics.annotation.Timed
 import edu.oregonstate.mist.api.Resource
 import edu.oregonstate.mist.api.jsonapi.ResultObject
-import edu.oregonstate.mist.departments.db.DeptDAO
+import edu.oregonstate.mist.departments.db.DepartmentDAO
 import groovy.transform.TypeChecked
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -23,10 +23,10 @@ import javax.ws.rs.core.Response
 class DepartmentsResource extends Resource {
 
     Logger logger = LoggerFactory.getLogger(DepartmentsResource.class)
-    private DeptDAO deptDAO
+    private DepartmentDAO departmentDAO
 
-    DepartmentsResource(DeptDAO deptDAO) {
-        this.deptDAO = deptDAO
+    DepartmentsResource(DepartmentDAO deptDAO) {
+        this.departmentDAO = deptDAO
     }
 
     @Timed
@@ -37,7 +37,7 @@ class DepartmentsResource extends Resource {
         }
 
         ok(new ResultObject(
-                data: deptDAO.getDepartments(businessCenter).collect { it.toResourceObject() }
+                data: departmentDAO.getDepartments(businessCenter).collect { it.toResourceObject() }
         )).build()
     }
 
