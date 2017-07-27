@@ -1,6 +1,6 @@
-# Web API Skeleton
+# Department List API
 
-Skeleton for Dropwizard Web APIs.
+API to provide list of departments by business center name.
 
 ### Generate Keys
 

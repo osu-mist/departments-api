@@ -1,34 +1,38 @@
 swagger: '2.0'
 info:
-  title: Web API Skeleton
-  description: Skeleton for Dropwizard Web APIs
-  version: '0.0'
+  title: Departments API
+  description: API to retrieve deparments for a given business center.
+  version: '1.0'
   license:
     name: GNU Affero General Public License Version 3
     url: http://www.gnu.org/licenses/agpl-3.0.en.html
 externalDocs:
   description: GitHub Repository
-  url: https://github.com/osu-mist/web-api-skeleton
-host: localhost
+  url: https://github.com/osu-mist/departments-api
 schemes:
-  - http
-basePath: /api/v0
-consumes:
-  - text/plain
+  - https
 produces:
-  - text/plain
+  - application/json
 paths:
-  /:
+  /departments:
     get:
-      summary: Get information
-      description: Build and runtime information about the application.
+      summary: List departments
+      description: Return org code and org description (departments) for a single business center
       parameters:
-        - $ref: '#/parameters/pretty'
+        - in: query
+          name: businessCenter
+          description: "4-character business name"
+          required: true
+          type: string
       responses:
         200:
-          description: Object containing information
+          description: List of departments
           schema:
-            $ref: '#/definitions/Info'
+            $ref: "#/definitions/ResultObject"
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
 
 parameters:
   pretty:
@@ -39,23 +43,6 @@ parameters:
     description: If true, JSON response will be pretty-printed
 
 definitions:
-  Info:
-    properties:
-      name:
-        type: string
-        description: Name of the API.
-      time:
-        type: string
-        description: Build time in ISO 8601 format.
-      unixTime:
-        type: integer
-        description: Build time as milliseconds since the unix epoch.
-      commit:
-        type: string
-        description: Git commit hash of the revision which was built.
-      documentation:
-        type: string
-        description: Filename of the swagger specification for the API.
   Error:
     properties:
       status:
@@ -73,3 +60,54 @@ definitions:
       details:
         type: string
         description: A link to further information about the error.
+
+  ResultObject:
+    properties:
+      links:
+        $ref: "#/definitions/Links"
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/ResourceObject"
+
+  ResourceObject:
+    properties:
+      id:
+        type: string
+      type:
+        type: string
+      attributes:
+        $ref: "#/definitions/Attributes"
+      links:
+        $ref: "#/definitions/SelfLink"
+
+  Links:
+    properties:
+      self:
+        type: string
+      first:
+        type: string
+      last:
+        type: string
+      prev:
+        type: string
+      next:
+        type: string
+
+  SelfLink:
+    properties:
+      self:
+        type: string
+        description: Url to this resource / location.
+
+  Attributes:
+    properties:
+      name:
+        type: string
+        description: Name of the department usually referred to as orgDescription.
+      businessCenter:
+        type: string
+        description: Name of the business center
+      organizationCode:
+        type: string
+        description: Numeric orgCode for the department
