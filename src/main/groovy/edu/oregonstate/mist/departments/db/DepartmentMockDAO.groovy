@@ -2,7 +2,7 @@ package edu.oregonstate.mist.departments.db
 
 import edu.oregonstate.mist.departments.core.Department
 
-class DepartmentMockDAO implements DeptDAO {
+class DepartmentMockDAO extends DeptDAO implements DepartmentDAO {
     private static List<String> businessCenters = ["UABC", "AABC", "FOBC"]
     private static List<String> departments = ["HR Sample", "Finance Dept",
                                                "Mock Dept", "Audits"]
@@ -44,5 +44,18 @@ class DepartmentMockDAO implements DeptDAO {
         }
 
         generate(departmentSize, businessCenter)
+    }
+
+    boolean isValidBC(String businessCenter) {
+        def invalidBusinessCenters = ["empty", "invalid-bc"]
+        !invalidBusinessCenters.contains(businessCenter)
+    }
+
+    @Override
+    void close() { }
+
+    @Override
+    Integer checkHealth() {
+        return null
     }
 }

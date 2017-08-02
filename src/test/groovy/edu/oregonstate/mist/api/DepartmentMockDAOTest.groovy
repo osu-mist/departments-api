@@ -60,4 +60,10 @@ class DepartmentMockDAOTest {
 
         assertEquals(orgCodes, uniqueOrgCodes)
     }
+
+    @Test
+    void invalidBcIsInvalid() {
+        def mockDAO = new DepartmentMockDAO(1)
+        assertFalse mockDAO.isValidBC("invalid-bc")
+    }
 }

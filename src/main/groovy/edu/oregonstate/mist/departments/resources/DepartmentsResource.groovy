@@ -3,10 +3,8 @@ package edu.oregonstate.mist.departments.resources
 import com.codahale.metrics.annotation.Timed
 import edu.oregonstate.mist.api.Resource
 import edu.oregonstate.mist.api.jsonapi.ResultObject
-import edu.oregonstate.mist.departments.db.DeptDAO
+import edu.oregonstate.mist.departments.db.DepartmentDAO
 import groovy.transform.TypeChecked
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 
 import javax.annotation.security.PermitAll
 import javax.ws.rs.GET
@@ -22,22 +20,21 @@ import javax.ws.rs.core.Response
 @TypeChecked
 class DepartmentsResource extends Resource {
 
-    Logger logger = LoggerFactory.getLogger(DepartmentsResource.class)
-    private DeptDAO deptDAO
+    private DepartmentDAO departmentDAO
 
-    DepartmentsResource(DeptDAO deptDAO) {
-        this.deptDAO = deptDAO
+    DepartmentsResource(DepartmentDAO deptDAO) {
+        this.departmentDAO = deptDAO
     }
 
     @Timed
     @GET
     Response getDepartments(@QueryParam('businessCenter') String businessCenter) {
-        if (!businessCenter?.trim()) {
-            return badRequest("businessCenter is required").build()
+        if (!businessCenter?.trim() || !departmentDAO.isValidBC(businessCenter)) {
+            return badRequest("A valid businessCenter is required.").build()
         }
 
         ok(new ResultObject(
-                data: deptDAO.getDepartments(businessCenter).collect { it.toResourceObject() }
+                data: departmentDAO.getDepartments(businessCenter).collect { it.toResourceObject() }
         )).build()
     }
 
