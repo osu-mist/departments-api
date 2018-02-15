@@ -1,3 +1,10 @@
+# Archived
+
+This repository is archived and is set to read-only.
+This API was combined with the positions-api to produce the [hr-api](https://github.com/osu-mist/hr-api).
+
+Please use that instead. Original readme is below.
+
 # Department List API
 
 API to provide list of departments by business center name.
